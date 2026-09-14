@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+INTEGRATION_MARKER = b'<!-- omf-integration:'
 
 
 def digest(data):
@@ -53,7 +54,11 @@ def main():
                 original = (HERE / 'files' / repo / rel).read_bytes()
                 if digest(original) != entry['sha256']:
                     raise ValueError(f'Package checksum mismatch: {repo}/{rel}')
-                data = hook + original if rel.as_posix() in ('AGENTS.md', 'CLAUDE.md') else original
+                # 통합 어댑터는 integration.md에서 생성한 파일이라 접두사를 붙이면
+                # 생성물 검사(workflow check)가 깨진다. 포인터는 생성 원본이 갖는다.
+                generated = INTEGRATION_MARKER in original
+                adapter = rel.as_posix() in ('AGENTS.md', 'CLAUDE.md')
+                data = hook + original if adapter and not generated else original
             current = target.read_bytes() if target.is_file() else None
             if target.exists() and not target.is_file():
                 conflicts.append(f'{repo}/{rel}: not a regular file')

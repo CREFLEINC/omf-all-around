@@ -8,6 +8,7 @@
 /docs/*
 !/docs/model-routing.md
 !/docs/local-harness-files.json
+!/docs/client-test-operations.md
 
 # Defense in depth inside allowlisted directories.
 **/__pycache__/

@@ -2,6 +2,7 @@
   "purpose": "로컬 전용 하네스 변경. 제품 커밋·PR·push에서 제외. 같은 파일의 제품 변경은 hunk별 검토.",
   "repositories": {
     "omf-mes-client": [
+      ".final-routine/",
       "AGENTS.md",
       "CLAUDE.md",
       "README.md",
@@ -18,6 +19,8 @@
       ".client-dev/state.json"
     ],
     "omf-mes-server": [
+      ".claude/",
+      ".final-routine/",
       "local-harness/fr002-prepare.sql",
       "local-harness/fr002-permissions.sql",
       "local-harness/fr002-reset.sh",

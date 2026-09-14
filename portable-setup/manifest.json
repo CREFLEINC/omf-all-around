@@ -2,38 +2,38 @@
   "format": 1,
   "repositories": {
     "omf-mes-client": {
-      "head": "041fa44fd6ea7124e19411d11dfe689bf3d2ed21",
+      "head": "224e1002  (상류 재기준: 2f8d3782 #1219 반영)",
       "ahead_behind": "3\t0",
       "files": [
         {
           "path": "AGENTS.md",
-          "sha256": "9f5d000e163be1c0dd42bc8a935c9579f0e5d63338e4d0ed9eea11b0a40e7722",
+          "sha256": "cb31d0ee4e5bdb80a3ef1aa12595e615424da6dd56663329cdb13f23eed9a29b",
           "base_sha256": null
         },
         {
           "path": "CLAUDE.md",
-          "sha256": "7c0e4d4e9f9ee0c3faf731bcd8a543e00fe612d9f2bc676a06bd201fbd4389d8",
+          "sha256": "db6b45b5d9de50d518f9f46a5fcdc1c0bf3c2281f11f6bc1448fe62c43b3d61c",
           "base_sha256": null
         },
         {
           "path": "README.md",
-          "sha256": "d71f2fc5c03a08cb52e79bc5b24cbb7960083dea1641fdaade1902ce6729f5d8",
-          "base_sha256": "177fcdb39867268ca36bea3a7e7f9c59cc433ac4db68e68d2968364f37ade06b"
+          "sha256": "0cd737cbff723c42185f456a71045f8dd684f011c834ec2207ffe92bb9f32b72",
+          "base_sha256": "2d2ce7c711ab87f6fbf4549b689d34d23d13c65c0b775746d25febd09a4a3a35"
         },
         {
           "path": "docs/client-dev-workflow/README.md",
-          "sha256": "cfc5256753381571c09a4ad3372f71f5559f2514de9608baeda7f8f69f1cf5f2",
-          "base_sha256": "8b671fd0b5f3af6d3ec8bf0f918c9850741c2ff4a7e2d21009715820945cf5f2"
+          "sha256": "7399f752eb6de86ddd75034aae71287a81dd740010928b9f7dce90453ad7de16",
+          "base_sha256": "7f20bf5e019465693870fcc17e58a7bcf99e428d09910c2e89e2a6479e3640bc"
         },
         {
           "path": "docs/client-dev-workflow/integration.md",
-          "sha256": "ffada40c8292e890f905017e52616ce77e9f19dc24b3a9da40137cac821e1c63",
+          "sha256": "961d5853059a8d743b5560d869f83f29b20225e5dd38b25e730e062bccb62ffa",
           "base_sha256": null
         },
         {
           "path": "docs/client-dev-workflow/multi-agent-team-workflow-v3.md",
-          "sha256": "08e6db0f33366b7d71092f5eb078de930fc636dba289a6431554eb2ab5d1fa7d",
-          "base_sha256": "e9886452e0391aa705c17c7642288b182817f58ce3dfa4d9b59d07586d1efe08"
+          "sha256": "28a1f7d0c20d725040698473593d813b43c267d5c28239459d53ca06fcad2476",
+          "base_sha256": "91a3396bd580b08c727f739510420ad7e29a292832344d30e0a019b8bbc4c73f"
         },
         {
           "path": "docs/client-dev-workflow/references/design-request.md",
@@ -42,33 +42,33 @@
         },
         {
           "path": "docs/client-dev-workflow/templates/completion-report.md",
-          "sha256": "5388f5ca853762f12baa4fd7f41555c97a4036cf92c96b8aa81a68e9f1de1839",
-          "base_sha256": "cfd4cff25cb9cb168e046611960004a6e8424ee2dd6d2576535f2bdb41485f52"
+          "sha256": "c07f1bba59408887f3ca71c2117ab7ecad992adaf3c6964961de4aed44cecf59",
+          "base_sha256": "d7893f10070e876c9f92c1f35c620698ee87adf91f2884b1a78c65c72ae1160f"
         },
         {
           "path": "docs/client-dev-workflow/templates/design-request.md",
-          "sha256": "1005ab33838da8e7e8a220b1ccbfa70faf55602ede0d5dc88cda148664156fcc",
-          "base_sha256": "f6eb701cff20f06d233fb3008d5ece1e094189e3591ef8b6f409010084d98531"
+          "sha256": "a50771aad9b1659f3ee382f4032fe4a42a379985e4e7ca5bf507a59984659df3",
+          "base_sha256": "cbfdf10520ae671a7f160d16693ac39cfab5cd255dbc87320e255636c4baafb3"
         },
         {
           "path": "docs/client-dev-workflow/templates/plan.md",
-          "sha256": "61f4ed1eac3cdf9d4972e70bc22384bcc5bd03b62397e24858fb88a3dc1fc176",
-          "base_sha256": "5b3ff4b7c3c500da5922e7bd3d932f1877f7145c24b474983e9aecdaac9087e8"
+          "sha256": "2ff0cd178d6b3d2b81f1eb16c53b8ad229a0989a08688d74634e923cc998f107",
+          "base_sha256": "3242abb452587cbea5f5703051ee805189193c1e5a588fee9c9a0823c8868812"
         },
         {
           "path": "tools/workflow-state.mjs",
-          "sha256": "738f6b9e039d7063980d24133b6ce42983997b7850459b01926f33c1fd5d349a",
-          "base_sha256": "1f61366e3e877bd6ba836fc062b8f474f06fd64ea1f55674c4268773efd25456"
+          "sha256": "217b0f62437f6328f69278397f2f8cab1e243d36e11e8fd8829f4bc1f4f2487e",
+          "base_sha256": "df11c75ba88e02716249970bb2b6b7269555e2e396488ac54649616850697abf"
         },
         {
           "path": "tools/workflow/bootstrap.mjs",
-          "sha256": "87aac311a8654fc4762c534aca488d1ce579fb21abaf57e47bc4e91bfca56ea0",
-          "base_sha256": "ef766e0ef26d64610e20861a49e027b07b6ce8f629b06950e3834f9a8600aed9"
+          "sha256": "5fbb35dbeb36f7b55fec8d05b638461289af345b76517d9f786195ea41e3a240",
+          "base_sha256": "6ba47e1e6ece213fee6056f18ad9228d7e28950c336d16158ee7a31da1914b13"
         },
         {
           "path": "tools/workflow/bootstrap.test.mjs",
-          "sha256": "1cdf70968694de8df6a383318c2ea375ce14794d22fa0d29a29eb594f98bf20f",
-          "base_sha256": "debfbc99138fdd507b89245bcd7c3a6053c80d84c9d8d6f640f91aec33f7077b"
+          "sha256": "a17a362e8dd0383bbae41f5a804e77f9a25f7ac235f27dac2411ba8a79124592",
+          "base_sha256": "17f1f75541d7cd59e40ee4ced0504426f652f13a6bf7eb2377e05f9341956d11"
         }
       ]
     },
@@ -93,7 +93,7 @@
         },
         {
           "path": "docs/agents/integration.md",
-          "sha256": "586dd58220aca82f1d4b76399a5d0f5ded7e416e6e390919e221749ac6c6075a",
+          "sha256": "4797c4f5a44f7da190c762630ca041154d98ddba04946357fc8be85af85e8a10",
           "base_sha256": null
         },
         {
