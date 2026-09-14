@@ -1,0 +1,3 @@
+Isolated temporary repositories: dry-run PASS; backup/apply PASS; idempotence PASS; changed-upstream refusal PASS.
+Current client/server: read-only dry-run PASS; NOT installed or modified.
+Git allowlist: evidence, backups, deliverables and local-harness excluded.

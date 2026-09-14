@@ -1,0 +1,23 @@
+# Only reviewed portable setup material is shared.
+/*
+!/.gitignore
+!/README.md
+!/OMF_ALL_ROUNDER_WORKFLOW.md
+!/portable-setup/
+!/docs/
+/docs/*
+!/docs/model-routing.md
+!/docs/local-harness-files.json
+
+# Defense in depth inside allowlisted directories.
+**/__pycache__/
+**/.DS_Store
+**/.env
+**/.env.*
+**/*.apk
+**/*.dump
+**/*.sql
+**/node_modules/
+
+!/docs/integration-protocol.md
+!/templates/

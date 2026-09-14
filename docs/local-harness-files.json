@@ -1,0 +1,33 @@
+{
+  "purpose": "로컬 전용 하네스 변경. 제품 커밋·PR·push에서 제외. 같은 파일의 제품 변경은 hunk별 검토.",
+  "repositories": {
+    "omf-mes-client": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "README.md",
+      "docs/client-dev-workflow/README.md",
+      "docs/client-dev-workflow/integration.md",
+      "docs/client-dev-workflow/multi-agent-team-workflow-v3.md",
+      "docs/client-dev-workflow/references/design-request.md",
+      "docs/client-dev-workflow/templates/completion-report.md",
+      "docs/client-dev-workflow/templates/design-request.md",
+      "docs/client-dev-workflow/templates/plan.md",
+      "tools/workflow-state.mjs",
+      "tools/workflow/bootstrap.mjs",
+      "tools/workflow/bootstrap.test.mjs",
+      ".client-dev/state.json"
+    ],
+    "omf-mes-server": [
+      "local-harness/fr002-prepare.sql",
+      "local-harness/fr002-permissions.sql",
+      "local-harness/fr002-reset.sh",
+      "local-harness/backups/",
+      "AGENTS.md",
+      "CLAUDE.md",
+      "CONTEXT.md",
+      "docs/agents/integration.md",
+      "docs/agents/team-protocol.md",
+      "multi-agent-team-workflow-v3.md"
+    ]
+  }
+}
