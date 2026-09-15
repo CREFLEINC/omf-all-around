@@ -301,6 +301,11 @@ adb shell run-as <패키지> toybox nc -z 8.8.8.8 53          # 앱 UID, 공인 
 | BOM 구성품 공정 미매핑 | 출고요청·피킹 0건(조용히) | 라우팅 확정 후 구성품마다 등록 공정 지정 |
 | POP 재기동 즉시 | 9223 충돌, CDP 없이 기동 | 포트 빈 것 확인 후 기동 |
 | 타 세션 부하 루프 | 빌드·테스트 지연, OOM | 시작 전 CPU 점검, 기록 |
+| 모바일 스캔 칸에 `adb input text` | 키 입력이 조각으로 잘려 "SEE"·"D-S230-0003" 불일치 판정 | 직접 입력 칸에 CDP로 값 일괄 설정 후 「넣기」 |
+| 고정 하단 바가 버튼을 덮음 | 「이 라인 피킹」 중앙 탭이 비활성 바에 떨어짐 | 스크롤 후 `elementFromPoint`로 겹침 확인, 버튼 윗부분 탭 |
+| 빌드 명령 뒤 `\| tail` | gradle 실패 종료 코드가 가려져 낡은 APK 설치 | `set -o pipefail` 또는 종료 코드를 따로 잡고 sha256 대조 |
+| 서버 재기동 | 관리자 웹 세션 소실(API 401/PERMISSION_DENIED) | 재기동 뒤 operator로 재로그인 |
+| 홈 마지막 타일이 화면 끝에 걸림 | 탭이 등록되지 않음 | 스크롤 후 탭 |
 
 ---
 
@@ -327,3 +332,11 @@ adb shell run-as <패키지> toybox nc -z 8.8.8.8 53          # 앱 UID, 공인 
 - **`pnpm test`(web+mobile vitest 동시)가 OOM으로 중단**되면 같은 범위를 `--workspace-concurrency=1` + web 단독(`--maxWorkers=4`)으로 나눠 돌리고, 나눈 사실과 범위 동일성을 기록한다.
 - **POP 재기동 시 9223 포트 충돌.** `Browser.close` 직후 바로 띄우면 이전 프로세스가 아직 포트를 쥐고 있어 새 인스턴스가 CDP 없이 뜬다. 종료 후 `lsof -iTCP:9223`으로 빈 것을 확인하고 띄운다.
 - 시나리오 간 DB 되돌리기는 **선별 삭제 SQL**(FK 전수 확인, 기대 건수 불일치 시 롤백, dry-run→apply)로 한다. 채번 카운터는 되돌리지 않으므로 final 번호가 이어진다(0003~).
+
+## 12. 모바일 조작 함정 (PICK-ISSUE-01)
+
+- **스캔 칸(`use-scan-field`)은 키 입력을 조각 단위로 평가한다.** `adb shell input text`는 문자를 여러 묶음으로 보내므로 앞 묶음("SEE")이 먼저 판정돼 "이 라인의 LOT 이 아닙니다"가 뜨고 나머지("D-S230-0003")가 다시 판정된다. 실제 스캐너는 값을 한 번에 넣으므로 제품 결함이 아니다. 조작은 「직접 입력」을 연 뒤 CDP(`mobile-observer` 9313 `/eval`)로 네이티브 value setter + `input` 이벤트를 써서 값을 일괄 설정하고 「넣기」를 실제 탭한다(`evidence/PICK-ISSUE-01/client/tools/pickline.sh`).
+- **고정 하단 바(「출고 확정」·「입고 확정」)가 스크롤 전 상태에서 위 버튼을 일부 덮는다.** `uiautomator` bounds 중앙 탭이 바에 떨어져 무반응이 된다. 스와이프로 끝까지 내린 뒤 CDP `elementFromPoint`로 겹침이 없는지 확인하고 버튼 상단 쪽을 탭한다(D3로 클라이언트 수정 배정).
+- **숫자 키패드 「0」이 화면 아래로 밀려 탭이 실패**해도 `mob.sh tap`은 조용히 실패한다. 자리마다 `tapped` 응답을 확인하고 실패 시 스크롤 후 재시도한다. 입력 후 CDP로 `input.value`를 읽어 대조한다.
+- **서버(nest watch) 재기동은 관리자 웹 세션을 지운다.** 담당이 src를 바꾸면 헤드리스 Chrome의 API 호출이 `PERMISSION_DENIED "로그인이 필요합니다"`로 바뀐다. 시연 전 `fetch` 상태 코드로 확인하고 `typeInto("아이디")`·`typeAdminPassword("비밀번호")`로 재로그인한다.
+- 에뮬레이터를 `-no-window`로 재기동하면 스냅샷 부팅으로 앱·SecureStorage 토큰이 남는다. 앱 프로세스가 바뀌면 `adb forward tcp:9444 localabstract:webview_devtools_remote_<pid>`를 다시 걸고 observer를 재기동해야 `/eval`이 새 WebView에 붙는다.
