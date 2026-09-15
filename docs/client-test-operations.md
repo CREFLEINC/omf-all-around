@@ -239,8 +239,8 @@ prisma generate → contracts:generate → eslint "{src,test}/**/*.ts" --max-war
 pnpm typecheck    # pnpm -r typecheck
 pnpm test         # workflow:repo-check → test:workflow → pnpm -r test
 pnpm dep:check
-pnpm check:generated
 ```
+`check:generated`는 2026-09-15 상류 `da30b8cd`가 스크립트를 지워 필수 목록에서 뺐다(WIP-CHAIN-01 착수 시 확인).
 `pnpm test`에 `workflow:repo-check`가 묶여 있다 — 로컬 전용 자료가 추적되면 막는 검사다.
 
 ---
@@ -340,3 +340,41 @@ adb shell run-as <패키지> toybox nc -z 8.8.8.8 53          # 앱 UID, 공인 
 - **숫자 키패드 「0」이 화면 아래로 밀려 탭이 실패**해도 `mob.sh tap`은 조용히 실패한다. 자리마다 `tapped` 응답을 확인하고 실패 시 스크롤 후 재시도한다. 입력 후 CDP로 `input.value`를 읽어 대조한다.
 - **서버(nest watch) 재기동은 관리자 웹 세션을 지운다.** 담당이 src를 바꾸면 헤드리스 Chrome의 API 호출이 `PERMISSION_DENIED "로그인이 필요합니다"`로 바뀐다. 시연 전 `fetch` 상태 코드로 확인하고 `typeInto("아이디")`·`typeAdminPassword("비밀번호")`로 재로그인한다.
 - 에뮬레이터를 `-no-window`로 재기동하면 스냅샷 부팅으로 앱·SecureStorage 토큰이 남는다. 앱 프로세스가 바뀌면 `adb forward tcp:9444 localabstract:webview_devtools_remote_<pid>`를 다시 걸고 observer를 재기동해야 `/eval`이 새 WebView에 붙는다.
+## 13. 조작 함정 (WIP-CHAIN-01)
+
+### POP
+
+- **스캔 칸 Enter 는 `text` 를 함께 보내야 폼이 제출된다.** CDP `Input.dispatchMouseEvent` 로 값을 넣은
+  뒤 `Input.dispatchKeyEvent{type:'keyDown', key:'Enter', code:'Enter', windowsVirtualKeyCode:13}` 만
+  보내면 아무 일도 일어나지 않는다. **`text: "\r"` 을 함께 실어야** 문자 입력으로 해석돼 제출이 돈다
+  (`keyDown` → `char` → `keyUp` 순서로 보내도 된다). 값만 넣고 Enter 가 먹지 않아 「스캔이 안 된다」로
+  오판하기 쉬운 자리다.
+- **POP 새로고침은 주소를 유지한다.** `Page.reload` 하면 `pop://app/pop/...` 그대로 다시 서고, 화면이
+  다시 그려지는 사이에 보낸 키패드 입력이 **엉뚱한 칸**(직전 화면의 포커스 자리)에 들어간다. 새로고침
+  뒤에는 ① 화면 텍스트로 어느 화면인지 확인하고 ② 목표 입력칸을 클릭해 포커스를 잡은 뒤 입력한다.
+- **셸이 명령형(RAW) 인쇄를 할 수 있는지 먼저 묻는다.** `window.pop.printers.capabilities()` 가
+  `{raw:false}` 면(현재 macOS) 화면은 `png` 를 요청하고 가상 큐로 찍는다. `{raw:true}`(Windows)면
+  `tspl` 이다. 인쇄가 「보낼 프린터를 찾을 수 없다」로 멎으면 이 값부터 본다(WIP-CHAIN-01 D6).
+- **중계 응답은 이제 `Cache-Control: no-store` 로 온다**(D4). 그 전에는 렌더러가 `pop://app/api/...`
+  응답을 디스크 캐시에 두고 **셸을 다시 띄워도** 옛 값을 내줬다 — 단말 권한을 DB 에서 고쳤는데 화면이
+  안 바뀌면 옛 빌드인지부터 확인한다. 급할 때의 확인법은 `?_=Date.now()` 를 붙여 보거나 CDP
+  `Network.clearBrowserCache` 다.
+- **CDP `Page.navigate` 가 같은 주소로는 응답하지 않을 수 있다.** 같은 URL 로 이동을 보내면 명령이
+  끝나지 않아 스크립트가 멎는다. 주소가 이미 목표면 이동을 건너뛰고, 필요하면 `Runtime.evaluate` 로
+  `location.replace(...)` 를 쓴다.
+
+### 모바일
+
+- **타일이 화면 밖이면 탭이 조용히 빗나간다.** 홈 화면의 업무 타일은 목록이 길어 아래쪽 항목이
+  뷰포트 밖에 있고, `uiautomator` bounds 로 계산한 좌표를 탭하면 다른 것이 눌리거나 아무 일도
+  일어나지 않는다. **CDP 로 `scrollIntoView({block:'center'})` 한 뒤** bounds 를 **다시 읽어** 탭한다.
+- **`uiautomator dump` 는 첫 회가 비거나 낡은 내용을 준다.** 화면 전환 직후 한 번은 버리고 다시 뜬다
+  (또는 `adb shell uiautomator dump /dev/tty` 를 두 번 부른다). 첫 회 결과로 좌표를 잡으면 이전 화면의
+  자리를 누른다.
+
+### 공통
+
+- 위 두 가지(스캔 Enter·타일 스크롤)는 **제품 결함이 아니라 조작 방식의 문제다.** 실기 스캐너와 사람 손은
+  같은 문제를 겪지 않는다 — 증거에는 「조작 대체」로 표기한다.
+
+- **관리자 웹 W-02-08 W/O 진행현황은 계획 시작일 범위를 항상 실어 조회한다** — 계획 시작일이 비어 있는 W/O(전개 직후 4M 배정 전)는 조회되지 않는다. 진행 상태 확인은 W-02-05 W/O 마감의 「마감 상태 = 진행」 조회로 한다(WIP-CHAIN-01 S13).
