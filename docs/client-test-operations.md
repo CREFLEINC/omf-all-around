@@ -378,3 +378,43 @@ adb shell run-as <패키지> toybox nc -z 8.8.8.8 53          # 앱 UID, 공인 
   같은 문제를 겪지 않는다 — 증거에는 「조작 대체」로 표기한다.
 
 - **관리자 웹 W-02-08 W/O 진행현황은 계획 시작일 범위를 항상 실어 조회한다** — 계획 시작일이 비어 있는 W/O(전개 직후 4M 배정 전)는 조회되지 않는다. 진행 상태 확인은 W-02-05 W/O 마감의 「마감 상태 = 진행」 조회로 한다(WIP-CHAIN-01 S13).
+
+## 14. 실기기·환경 함정 (ISSUE-QR-01, 2026-09-16)
+
+### USB 실기기(에뮬레이터 대체)
+
+- **에뮬레이터는 메모리를 크게 먹는다(qemu 약 0.9GB + 부하).** 머신이 빠듯하면 USB 실기기로 바꾼다. `adb devices` 에 `unauthorized` 면 기기 화면의 「USB 디버깅 허용」을 눌러야 한다.
+- **실기기는 `10.0.2.2` 를 쓸 수 없다.** APK 를 `VITE_API_BASE_URL=http://127.0.0.1:3100/api` 로 굽고 `adb -s <serial> reverse tcp:3100 tcp:3100` 을 건다 — Wi-Fi 없이 USB 만으로 이 Mac 의 서버에 닿는다. **adb 데몬이 재시작되면 reverse 가 사라진다**(`* daemon started successfully` 가 보이면 다시 건다). 기기에서 `curl http://127.0.0.1:3100/api/health` 로 확인.
+- **서명이 다른 기존 앱이 있으면 `install -r` 이 `INSTALL_FAILED_UPDATE_INCOMPATIBLE` 로 막힌다.** `adb uninstall <pkg>` 뒤 새로 설치한다(앱 데이터도 함께 지워진다).
+- 실기기의 야간 모드는 `adb shell cmd uimode night` 로 보고 `night no` 로 끈다.
+
+### 관리자 웹 vite 는 프록시 주소가 필요하다
+
+- `apps/web/.env.local` 이 없으면 vite 가 `/api` 프록시 없이 떠서 **`/api/*` 가 SPA index.html 로 떨어진다**(GET 은 HTML 200, POST 는 404 빈 본문). 화면에는 「서버에 닿지 못해…」·「서버 오류」만 뜬다. `VITE_API_PROXY_TARGET=http://localhost:3100 VITE_API_BASE_URL=/api pnpm --filter @omf-mes/web dev --port 5173` 으로 띄운다. 확인은 `curl -X POST localhost:5173/api/app/sessions` 가 401(JSON)인지.
+
+### macOS 가상 프린터 큐
+
+- `lpadmin -m raw` 는 **macOS 에서 더는 안 된다**(`Raw queues are no longer supported`). 검증된 것은 `lpadmin -p OMF-VIRTUAL-LABEL -E -v socket://127.0.0.1:9100 -m drv:///sample.drv/generic.ppd` + `lpoptions -d OMF-VIRTUAL-LABEL`. 장치 주소에 아무것도 없어 실제 출력은 없고 스풀 성공으로 끝난다.
+- POP 셸은 인쇄 전에 렌디션을 `~/Library/Application Support/@omf-mes/pop/renditions/*.png` 로 먼저 저장한다 — 라벨 이미지 증거는 여기서 수거한다(`logs/print.log` 도 함께).
+
+### 헤드리스 Chrome 에서 클립보드로 토큰 받기
+
+- W-CO-06 「등록 코드 복사」는 `navigator.clipboard.writeText` 라 헤드리스에서는 권한이 없다. CDP `Browser.grantPermissions({origin:'http://localhost:5173', permissions:['clipboardReadWrite','clipboardSanitizedWrite']})` 를 먼저 준다. 토큰 원문은 operator 메모리에만 두고 기록하지 않는다.
+
+### 렌더러가 실제로 받은 응답을 보는 법
+
+- 화면이 「불러오지 못했습니다」만 말할 때 원인은 **CDP `Network.enable` + `Network.responseReceived` 로 잡는다**(`scratchpad/pop-netcap.mjs` 패턴: 버튼 클릭 → 4xx 본문 `Network.getResponseBody`). 헤더는 읽지 않는다. 렌더러에서 `fetch('/api/…')` 를 직접 부르면 단말 토큰이 붙지 않아 401 만 나오므로 진단에 쓰지 않는다.
+- 이번에 이렇게 잡은 것 둘: ① `issuedAtFrom` 에 date-time 을 보내 400(`must match format "date"`) — 계약 `format: date` 는 `YYYY-MM-DD`, UTC 절단이 아니라 현지 날짜로. ② `targetIds=1,2,3`(계약 explode false) 을 서버 단말 범위 검사가 id 하나로 읽어 401 — 가드 순서상 계약 검증기의 쉼표 분해가 뒤에 돌기 때문(서버 D7).
+
+### 메모리 압박
+
+- 부하 루프·vitest 반복이 다른 세션에서 돌면 load average 100 이상이 되고 **서버 watch 프로세스가 OS 에 정리된다.** 시나리오 실행 중에는 서버를 `pnpm build` → `node dist/main.js` 로 띄운다(프로세스 1개, tsc watch 없음, RSS 약 300MB). 이때 소스 수정은 반영되지 않으므로 결함 수정 뒤 빌드·프로세스 교체(약 40초 끊김)가 필요하다.
+- 전체 web 시험(1.9만 건)은 부하 중에는 돌리지 않고, 사용자 직접 테스트가 급하면 빌드를 먼저 한다 — 필수 검증은 완료 판정 조건이지 수동 테스트 착수 조건이 아니다.
+
+### 담당 세션이 멈춘 것처럼 보일 때
+
+- 담당 세션이 「진행 중」이라 보고했는데 해당 작업트리에서 도는 프로세스가 0건이면 백그라운드 셸이 끝났거나 통보를 놓친 것이다. `ps` 로 확인하고 포그라운드로 다시 돌리게 한다. 상대경로 로그 리다이렉션이 `cd` 뒤에 실패해 조각 시험이 한 번도 돌지 않은 사례가 있었다(절대경로로).
+
+### 시드 데이터로 만든 자재·위치 QR
+
+- 자재 LOT QR 은 **LOT 번호 원문**, 위치 QR 은 **위치 코드 원문**이다(통보 277 · 모바일 `useLocationByCode`). 시험용 이미지는 cv2 `QRCodeEncoder` 로 만들고 `QRCodeDetector` 로 되읽어 대조한다(`scratchpad/make-qr.py`, `qrdecode.py`). 출고 QR 은 접두어 있는 `OMF-GIL|<goodsIssueLineId>|<출고번호>|<라인번호>` 라 서로 섞이지 않는다.
