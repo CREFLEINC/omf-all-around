@@ -23,7 +23,7 @@ python3 portable-setup/install.py --client /path/to/omf-mes-client --server /pat
 
 ## 별도로 보존할 것
 
-- **제품 커밋:** 수집 시 클라이언트 main은 `041fa44f`(origin/main 대비 +3), 서버 main은 `7862f4e`(+2)다. 이 커밋이 원격에 없으면 clone만으로 제품 변경이 복원되지 않는다. 제품 PR로 반영하거나 별도 Git bundle로 이전해야 한다.
+- **제품 커밋:** 2026-09-17 동기화 시점에 클라이언트 main `55763edc`·서버 main `f4c2867`은 origin/main과 같다(미push 제품 커밋 없음). 수집 당시(2026-09-14)의 미push 커밋(클라이언트 `041fa44f` +3, 서버 `7862f4e` +2)은 그 뒤 PR로 반영됐다.
 - **기존 시나리오를 이어 할 때만:** DB 백업·실행 변수·스크린샷 등은 안전하게 별도 이전한다. 신규 시나리오의 준비 데이터는 새 DB에 다시 구성한다.
 - `.client-dev/state.json`은 과거 PC 경로와 기준 커밋이 있어 제외했다. 새 저장소 상태에 맞춰 기존 bootstrap 절차를 검토한 후 생성한다.
 

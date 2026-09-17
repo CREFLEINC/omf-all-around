@@ -2,8 +2,8 @@
   "format": 1,
   "repositories": {
     "omf-mes-client": {
-      "head": "224e1002  (상류 재기준: 2f8d3782 #1219 반영)",
-      "ahead_behind": "3\t0",
+      "head": "55763edcae10348fe58712914cd880e9278c33a8  (SHIP-FINAL-01 종료 시점 동기화 2026-09-17)",
+      "ahead_behind": "0\t0",
       "files": [
         {
           "path": "AGENTS.md",
@@ -17,13 +17,13 @@
         },
         {
           "path": "README.md",
-          "sha256": "0cd737cbff723c42185f456a71045f8dd684f011c834ec2207ffe92bb9f32b72",
-          "base_sha256": "2d2ce7c711ab87f6fbf4549b689d34d23d13c65c0b775746d25febd09a4a3a35"
+          "sha256": "e22c6ef53b99fe111bc161dfa197d6b7b9545465e007fdf708d1b574438759ff",
+          "base_sha256": "214ba8c2997b5faac6d038c5b35eb10d52506432270a8555794282e7a9445d5b"
         },
         {
           "path": "docs/client-dev-workflow/README.md",
-          "sha256": "7399f752eb6de86ddd75034aae71287a81dd740010928b9f7dce90453ad7de16",
-          "base_sha256": "7f20bf5e019465693870fcc17e58a7bcf99e428d09910c2e89e2a6479e3640bc"
+          "sha256": "d52da0d92d84cb4135a057c5f89dee0007b5382a080a1eef40fd4a1a2a1ec978",
+          "base_sha256": "69fa360c84d985432f9aff128b336de29605e85b683b0a6a78060e3f68adbea7"
         },
         {
           "path": "docs/client-dev-workflow/integration.md",
@@ -32,33 +32,33 @@
         },
         {
           "path": "docs/client-dev-workflow/multi-agent-team-workflow-v3.md",
-          "sha256": "28a1f7d0c20d725040698473593d813b43c267d5c28239459d53ca06fcad2476",
-          "base_sha256": "91a3396bd580b08c727f739510420ad7e29a292832344d30e0a019b8bbc4c73f"
+          "sha256": "b1551cb3be54d9b8fca0ebe84a753dc65529d62e406598e523eb0ff05ef7ff49",
+          "base_sha256": "3478c06c99b8aa2800ca450ab8201fbfd00387f112000aca6b95ec40ddb500c1"
         },
         {
           "path": "docs/client-dev-workflow/references/design-request.md",
-          "sha256": "ddcdfe713223fdb3450e41ab0d009894429124f493a8f398657f81f02e4465df",
-          "base_sha256": "c77c57e4e1108ffd228ec8ae5afe7c7acafbdee08f51318b76bb313c65bf7fdc"
+          "sha256": "38f0d05d2e8e139dc7764ca4575b70e9845ddf23b3915627e0102709eeb64a72",
+          "base_sha256": "fa1958f3a27127edff23e488d5f9bfb6baf238414a4084918e77af0d0b649c6e"
         },
         {
           "path": "docs/client-dev-workflow/templates/completion-report.md",
-          "sha256": "c07f1bba59408887f3ca71c2117ab7ecad992adaf3c6964961de4aed44cecf59",
-          "base_sha256": "d7893f10070e876c9f92c1f35c620698ee87adf91f2884b1a78c65c72ae1160f"
+          "sha256": "7f237b5e04f19d7c6dd09a3ee80612e243dbafe179565cf309a965c67a9ece45",
+          "base_sha256": "20be4d66a10e1584911e202021d46c379b7e6e0481ca417e17b8534829b7439b"
         },
         {
           "path": "docs/client-dev-workflow/templates/design-request.md",
-          "sha256": "a50771aad9b1659f3ee382f4032fe4a42a379985e4e7ca5bf507a59984659df3",
-          "base_sha256": "cbfdf10520ae671a7f160d16693ac39cfab5cd255dbc87320e255636c4baafb3"
+          "sha256": "33afbdd908ec668331b330220c1fdb9103e5db2f054545bc6cc5d182d8ed0ce5",
+          "base_sha256": "5b15b37f96127a26c6e450e32a8b223ee07fa7da86cd4a70fe6579d5131c5644"
         },
         {
           "path": "docs/client-dev-workflow/templates/plan.md",
-          "sha256": "2ff0cd178d6b3d2b81f1eb16c53b8ad229a0989a08688d74634e923cc998f107",
-          "base_sha256": "3242abb452587cbea5f5703051ee805189193c1e5a588fee9c9a0823c8868812"
+          "sha256": "a0f309786b0aa3bc5857a21022e9832d4979cde0fafaa4805bf0aa8d53d0326f",
+          "base_sha256": "46b8a1fedff1748d6487172c8273da7d06b3c501194f138bfd10d4d8cdc725b7"
         },
         {
           "path": "tools/workflow-state.mjs",
-          "sha256": "217b0f62437f6328f69278397f2f8cab1e243d36e11e8fd8829f4bc1f4f2487e",
-          "base_sha256": "df11c75ba88e02716249970bb2b6b7269555e2e396488ac54649616850697abf"
+          "sha256": "ad1c74ef4e9ddf39180f5dd7678b61977eceff2da7a7774d06d1bc04adb59bfd",
+          "base_sha256": "77f2c7a1ad96d84a5d548737747ca17e1f4fb6a188abafe9d1bed7c1762b3417"
         },
         {
           "path": "tools/workflow/bootstrap.mjs",
@@ -73,8 +73,8 @@
       ]
     },
     "omf-mes-server": {
-      "head": "7862f4ee88af83356ffe6dc610b5f1ae5bd7f2e1",
-      "ahead_behind": "2\t0",
+      "head": "f4c286751b4061cf755e564ebe04c82d06be63d3  (SHIP-FINAL-01 종료 시점 동기화 2026-09-17)",
+      "ahead_behind": "0\t0",
       "files": [
         {
           "path": "AGENTS.md",
@@ -83,8 +83,8 @@
         },
         {
           "path": "CLAUDE.md",
-          "sha256": "eff45c5dce1771b27d1f74aa28591605ebcc3bca496c0b74ee2a1d3750bba96c",
-          "base_sha256": "86ad1174ab975fc4cef1c0cfcf90023a59d69c95a45be22124e5674e7bc96247"
+          "sha256": "3dae00cc32885fea5ffabea293514c8cdd14b68e9c1e2a4254e335c7bf22fd37",
+          "base_sha256": "d505217dbb4715da85d496e4cfb5ed9d7f9ad6a7160f3e083c90332a0a2c4270"
         },
         {
           "path": "CONTEXT.md",

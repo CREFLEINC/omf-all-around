@@ -4,7 +4,7 @@
 
 통합 모드 설정: `pnpm workflow:bootstrap --mode integration --tool both`. 확인: `pnpm workflow:check`. 통합 모드에서 팀 번호·GitHub 이슈·기존 업무 상태 파일은 착수 조건이 아니다. 생성 타입과 목 도구의 계약 입력은 별도로 유지한다.
 
-종전 모드의 업무 규칙과 절차의 정본은 [멀티 에이전트 개발 워크플로 V3](multi-agent-team-workflow-v3.md)다.
+종전 모드의 업무 규칙과 절차의 유일한 정본은 [클라이언트 개발 워크플로 V3](multi-agent-team-workflow-v3.md)다.
 
 AI 도구별 `AGENTS.md`와 `CLAUDE.md`는 저장소가 관리하지 않는다. 새 워크트리에서 다음 명령으로 필요한 로컬 어댑터를 생성한 뒤, 생성 파일의 `개인별 AI 도구 설정` 구역에 본인의 노하우를 추가한다.
 
