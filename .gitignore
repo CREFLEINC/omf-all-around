@@ -21,4 +21,5 @@
 **/node_modules/
 
 !/docs/integration-protocol.md
+!/docs/verification-artifact-guide.md
 !/templates/
