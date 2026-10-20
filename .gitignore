@@ -1,17 +1,10 @@
-# 공유 대상만 허용한다. 하위 제품 클론·로컬 기록·증거·백업은 올리지 않는다.
+# 공유 대상만 허용한다. 하위 제품 클론·로컬 기록·증거·백업·개인 작업 규칙(Spec Kit)은 올리지 않는다.
 /*
 !/.gitignore
 !/README.md
 !/docs/
 /docs/*
 !/docs/verification-artifact-guide.md
-
-# Spec Kit — 원칙·템플릿·스크립트, Claude 명령(skills), 피처별 명세
-!/.specify/
-!/specs/
-!/.claude/
-/.claude/*
-!/.claude/skills/
 
 **/.DS_Store
 **/.env
