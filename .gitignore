@@ -1,25 +1,11 @@
-# Only reviewed portable setup material is shared.
+# 공유 대상만 허용한다. 하위 제품 클론·로컬 기록·증거·백업은 올리지 않는다.
 /*
 !/.gitignore
 !/README.md
-!/OMF_ALL_ROUNDER_WORKFLOW.md
-!/portable-setup/
 !/docs/
 /docs/*
-!/docs/model-routing.md
-!/docs/local-harness-files.json
-!/docs/client-test-operations.md
+!/docs/verification-artifact-guide.md
 
-# Defense in depth inside allowlisted directories.
-**/__pycache__/
 **/.DS_Store
 **/.env
 **/.env.*
-**/*.apk
-**/*.dump
-**/*.sql
-**/node_modules/
-
-!/docs/integration-protocol.md
-!/docs/verification-artifact-guide.md
-!/templates/
