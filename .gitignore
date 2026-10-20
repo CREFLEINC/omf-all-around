@@ -6,6 +6,13 @@
 /docs/*
 !/docs/verification-artifact-guide.md
 
+# Spec Kit — 원칙·템플릿·스크립트, Claude 명령(skills), 피처별 명세
+!/.specify/
+!/specs/
+!/.claude/
+/.claude/*
+!/.claude/skills/
+
 **/.DS_Store
 **/.env
 **/.env.*
